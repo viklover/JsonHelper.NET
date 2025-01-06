@@ -94,7 +94,7 @@ public class JsonHelperTests {
         foreach (var item in result!) {
             await Console.Out.WriteLineAsync(item);
         }
-        CollectionAssert.AreEquivalent(items, result);
+        Assert.That(result, Is.EquivalentTo(items));
     }
     /// <summary>
     ///     Date selection test
