@@ -34,12 +34,12 @@ public static class JsonHelper {
     public static JToken SelectOrThrow(JToken json, string path, JTokenType tokenType) {
         var token = Select(json, path, tokenType);
         if (token == null) {
-            throw new JsonHelperException($"Failed to select JToken: token is null");
+            throw new JsonHelperException("Failed to select JToken: token is null");
         }
         return token;
     }
     /// <summary>
-    ///     Select <see cref="string"/> 
+    ///     Select <see cref="string"/>
     /// </summary>
     /// <param name="json">Initial json token</param>
     /// <param name="path">JSON path</param>
@@ -65,7 +65,7 @@ public static class JsonHelper {
         return value;
     }
     /// <summary>
-    ///     Select <see cref="bool"/> 
+    ///     Select <see cref="bool"/>
     /// </summary>
     /// <param name="json">Initial json token</param>
     /// <param name="path">JSON path</param>
