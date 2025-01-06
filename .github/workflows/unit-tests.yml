@@ -1,0 +1,24 @@
+name: Unit tests
+
+on:
+  pull_request:
+    branches: [ "master" ]
+  
+  workflow_dispatch:
+
+jobs:
+  core-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Run unit tests
+        run: dotnet test
