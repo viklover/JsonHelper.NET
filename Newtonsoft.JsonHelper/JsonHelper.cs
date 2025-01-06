@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace JsonHelper.Net;
+namespace NewtonsoftJsonHelper;
 /// <summary>
 ///     Newtonsoft.Json helper
 /// </summary>

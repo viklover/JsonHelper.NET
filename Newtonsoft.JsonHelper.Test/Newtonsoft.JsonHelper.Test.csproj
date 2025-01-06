@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JsonHelper.Net\JsonHelper.Net.csproj" />
+    <ProjectReference Include="..\Newtonsoft.JsonHelper\Newtonsoft.JsonHelper.csproj" />
   </ItemGroup>
 
 </Project>
