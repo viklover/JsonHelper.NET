@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>JsonHelper.Net</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>Mihail Vorobyev</Authors>
     <Description>Newtonsoft.Json helper we needed</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
