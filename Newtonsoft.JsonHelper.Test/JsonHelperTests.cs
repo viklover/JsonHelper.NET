@@ -1,7 +1,6 @@
 using Newtonsoft.Json.Linq;
-using NewtonsoftJsonHelper;
 
-namespace JsonHelper.Net.Test;
+namespace NewtonsoftJsonHelper.Test;
 /// <summary>
 ///     Unit tests to <see cref="JsonHelper"/>
 /// </summary>
