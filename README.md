@@ -47,7 +47,7 @@ var list = JsonHelper.SelectListOrThrow<float>(json, "$.list");
 
 ## Installation
 ```bash
-dotnet add package JsonHelper.Net --version 1.0.3
+dotnet add package JsonHelper.Net --version 1.0.4
 ```
 Nuget page is [here](https://www.nuget.org/packages/JsonHelper.Net)
 
