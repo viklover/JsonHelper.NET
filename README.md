@@ -4,7 +4,7 @@
 
 Helper for Newtonsoft.Json library.
 
-Now you can select JSON tokens by [paths](https://en.wikipedia.org/wiki/JSONPath) without nullability warnings:
+Now you can select JSON tokens by [paths](https://en.wikipedia.org/wiki/JSONPath) without nullability checks:
 ```csharp
 var json = JToken.Parse("{\"hello\":\"world\"}");
 
