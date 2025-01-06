@@ -1,4 +1,6 @@
 # Newtonsoft.Json helper
+[![Nuget](https://badge.fury.io/nu/JsonHelper.Net.svg)](https://badge.fury.io/nu/JsonHelper.Net)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/viklover/JsonHelper.Net/blob/master/LICENSE.txt)
 ![Linter workflow](https://github.com/viklover/JsonHelper.Net/actions/workflows/lint.yml/badge.svg)
 ![Unit tests workflow](https://github.com/viklover/JsonHelper.Net/actions/workflows/unit-tests.yml/badge.svg)
 
