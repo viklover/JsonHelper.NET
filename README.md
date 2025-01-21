@@ -1,4 +1,4 @@
-# Newtonsoft.Json helper
+# Newtonsoft.Json helper <img src="JsonHelper.Net/logo.png" alt="drawing" width="64"/>
 [![Nuget](https://badge.fury.io/nu/JsonHelper.Net.svg)](https://badge.fury.io/nu/JsonHelper.Net)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/viklover/JsonHelper.Net/blob/master/LICENSE.txt)
 ![Linter workflow](https://github.com/viklover/JsonHelper.Net/actions/workflows/lint.yml/badge.svg)

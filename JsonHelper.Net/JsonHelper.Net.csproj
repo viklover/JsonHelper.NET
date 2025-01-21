@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <PackageId>JsonHelper.Net</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Mihail Vorobyev</Authors>
     <Description>Newtonsoft.Json helper we needed</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/viklover/JsonHelper.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/viklover/JsonHelper.NET</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>logo.png</PackageIcon>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -20,6 +22,7 @@
 
   <ItemGroup>
       <None Include="..\README.md" Pack="true" PackagePath="\"/>
+      <None Include="logo.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
