@@ -1,0 +1,45 @@
+name: Publish
+
+on:
+  push:
+    branches: [ "master" ]
+    tags: ['*']
+  pull_request:
+
+jobs:
+  generate-version:
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+      steps:
+        - uses: actions/checkout@v2
+
+        - name: GitHub Tag Bump
+          id: tab_bump
+          uses: anothrNick/github-tag-action@1.71.0
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            INITIAL_VERSION: 1.0.0
+            DEFAULT_BUMP: patch
+
+  package-and-publish-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.x
+      
+      - name: Generate NuGet package
+        run: |
+          dotnet pack \
+          --configuration Release \
+          -p:PackageVersion=${{ needs.generate-version.outputs.new_version }} \
+          -o packages
+
+      - name: Publish NuGet package
+        run: dotnet nuget push packages/*.nupkg \ 
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --source https://api.nuget.org/v3/index.json
