@@ -136,6 +136,25 @@ public class JsonHelperTests {
         }
     }
     /// <summary>
+    ///     Date selection test
+    /// </summary>
+    [TestCase("{\"field\": \"12/25/2023\"}", "$.field", "MM/dd/yyyy", "2023-12-25T00:00:00.0000000")]
+    [TestCase("{\"field\":\"LLLLLLLL-e68b-4b5e-bc1b-a465d234c20\"}", "$.field", "MM/dd/yyyy", null)]
+    public async Task SelectDateWithFormatTest(string json, string path, string format, string? expected) {
+        await Console.Out.WriteLineAsync(json);
+        await Console.Out.WriteLineAsync(path);
+        await Console.Out.WriteLineAsync(expected?.ToString());
+        if (expected != null) {
+            var jtoken = JToken.Parse(json);
+            var date = JsonHelper.SelectDateOrThrow(jtoken, path, format);
+            var dateIso = date.ToString("o");
+            await Console.Out.WriteLineAsync(dateIso);
+            Assert.That(dateIso, Is.EqualTo(expected));
+        } else {
+            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectGuidOrThrow(json, path));
+        }
+    }
+    /// <summary>
     ///     Json token selection test
     /// </summary>
     [TestCase("{\"field\":{\"hello\":1,\"world\":2}}", "$.field", false)]
