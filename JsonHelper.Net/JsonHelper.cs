@@ -31,11 +31,11 @@ public static class JsonHelper {
     /// </summary>
     /// <param name="json">Initial json token</param>
     /// <param name="path">JSON path</param>
-    /// <param name="tokenType">Expected json type</param>
+    /// <param name="tokenTypes">Expected json types</param>
     /// <returns>Resolved token</returns>
     /// <exception cref="JsonHelperException">Unexpected <paramref name="tokenType"/></exception>
-    public static JToken SelectOrThrow(JToken json, string path, JTokenType tokenType) {
-        var token = Select(json, path, tokenType);
+    public static JToken SelectOrThrow(JToken json, string path, params JTokenType[] tokenTypes) {
+        var token = Select(json, path, tokenTypes);
         if (token == null) {
             throw new JsonHelperException("Failed to select JToken: token is null");
         }
