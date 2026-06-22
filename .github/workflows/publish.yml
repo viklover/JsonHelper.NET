@@ -1,48 +1,44 @@
-name: Publish
+name: NuGet publish
 
 on:
   push:
-    branches: [ "master" ]
-    tags: ['*']
-  pull_request:
+    tags:
+      - 'v*.*.*'
 
 jobs:
-  generate-version:
+  build-and-publish:
     runs-on: ubuntu-latest
+    environment: release
     permissions:
-      contents: write
+      id-token: write
+
     steps:
-      - uses: actions/checkout@v2
-
-      - name: GitHub Tag Bump
-        id: tab_bump
-        uses: anothrNick/github-tag-action@1.71.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INITIAL_VERSION: 1.0.0
-          DEFAULT_BUMP: patch
-    
-    outputs:
-      new_version: ${{ steps.tab_bump.outputs.new_tag }}
-
-  package-and-publish-lib:
-    runs-on: ubuntu-latest
-    needs: generate-version
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+      - uses: actions/checkout@v6
         with:
-          dotnet-version: 8.0.x
-      
-      - name: Generate NuGet package
-        run: |
-          dotnet pack \
-          --configuration Release \
-          -p:PackageVersion=${{ needs.generate-version.outputs.new_version }} \
-          -o packages
+          fetch-depth: 0
 
-      - name: Publish NuGet package
-        run: dotnet nuget push packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://nuget.pkg.github.com/viklover/index.json
- 
+      - name: Extract version from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "7.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore JsonHelper.Net/JsonHelper.Net.csproj
+
+      - name: Build
+        run: dotnet build JsonHelper.Net/JsonHelper.Net.csproj -c Release --no-restore
+
+      - name: Pack
+        run: dotnet pack JsonHelper.Net/JsonHelper.Net.csproj -c Release --no-build -o packages /p:Version=${{ env.VERSION }}
+
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: NuGet push
+        run: dotnet nuget push packages/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
