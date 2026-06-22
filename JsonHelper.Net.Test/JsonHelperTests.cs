@@ -97,6 +97,25 @@ public class JsonHelperTests {
         Assert.That(result, Is.EquivalentTo(items));
     }
     /// <summary>
+    ///     Array selection test
+    /// </summary>
+    [TestCase("{\"field\": [\"a\",\"b\",\"c\"]}", "$.field", "a", "b", "c")]
+    public async Task SelectArrayWithStringsTest(string json, string path, params string[] items) {
+        await Console.Out.WriteLineAsync(json);
+        await Console.Out.WriteLineAsync(path);
+        await Console.Out.WriteLineAsync(items.Length.ToString());
+        foreach (var item in items) {
+            await Console.Out.WriteLineAsync(item);
+        }
+        var jtoken = JToken.Parse(json);
+        var result = JsonHelper.SelectArray<string>(jtoken, path);
+        Assert.That(result, Is.Not.Null);
+        foreach (var item in result!) {
+            await Console.Out.WriteLineAsync(item);
+        }
+        Assert.That(result, Is.EquivalentTo(items));
+    }
+    /// <summary>
     ///     Date selection test
     /// </summary>
     [TestCase("{\"field\": \"2024-01-05T00:00:00\"}", "$.field", "2024-01-05T00:00:00.0000000")]

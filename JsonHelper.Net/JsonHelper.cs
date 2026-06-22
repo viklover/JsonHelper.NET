@@ -228,7 +228,33 @@ public static class JsonHelper {
         return value.Value;
     }
     /// <summary>
-    ///     Select <see cref="DateTime"/> 
+    ///     Select <see cref="T[]"/>
+    /// </summary>
+    /// <param name="json">Initial json token</param>
+    /// <param name="path">JSON path</param>
+    /// <returns>Resolved <see cref="T[]"/></returns>
+    public static T[]? SelectArray<T>(JToken json, string path) {
+        var token = Select(json, path, JTokenType.Array);
+        if (token == null) {
+            return null;
+        }
+        return token.ToObject<T[]>();
+    }
+    /// <summary>
+    ///     Select <see cref="T[]"/> or throw <see cref="JsonHelperException"/>
+    /// </summary>
+    /// <param name="json">Initial json token</param>
+    /// <param name="path">JSON path</param>
+    /// <returns>Resolved <see cref="T[]"/></returns>
+    public static T[] SelectArrayOrThrow<T>(JToken json, string path) {
+        var value = SelectArray<T>(json, path);
+        if (value == null) {
+            throw new JsonHelperException($"Failed to select an array at {path}");
+        }
+        return value;
+    }
+    /// <summary>
+    ///     Select <see cref="DateTime"/>
     /// </summary>
     /// <param name="json">Initial json token</param>
     /// <param name="path">JSON Path</param>
