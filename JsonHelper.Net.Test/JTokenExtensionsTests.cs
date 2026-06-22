@@ -153,6 +153,26 @@ public class JTokenExtensionsTests {
         }
     }
     /// <summary>
+    ///     Date selection with custom format test
+    /// </summary>
+    [TestCase("{\"field\": \"12/25/2023\"}", "$.field", "MM/dd/yyyy", "2023-12-25T00:00:00.0000000")]
+    [TestCase("{\"field\":\"hello\"}", "$.field", "MM/dd/yyyy", null)]
+    public async Task SelectDateWithFormatTest(string json, string path, string format, string? expected) {
+        await Console.Out.WriteLineAsync(json);
+        await Console.Out.WriteLineAsync(path);
+        await Console.Out.WriteLineAsync(format);
+        await Console.Out.WriteLineAsync(expected?.ToString());
+        var jtoken = JToken.Parse(json);
+        if (expected != null) {
+            var date = jtoken.SelectDateOrThrow(path, format);
+            var dateISO = date.ToString("O");
+            await Console.Out.WriteLineAsync(dateISO);
+            Assert.That(dateISO, Is.EqualTo(expected));
+        } else {
+            Assert.Throws<JsonHelperException>(() => jtoken.SelectDateOrThrow(path, format));
+        }
+    }
+    /// <summary>
     ///     Json token selection test
     /// </summary>
     [TestCase("{\"field\":{\"hello\":1,\"world\":2}}", "$.field", false)]

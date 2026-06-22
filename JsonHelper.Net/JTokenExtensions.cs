@@ -6,26 +6,26 @@ namespace NewtonsoftJsonHelper;
 /// </summary>
 public static class JTokenExtensions {
     /// <summary>
-    ///     Read json token by expected <paramref name="tokenType"/>
+    ///     Read json token by expected <paramref name="tokenTypes"/>
     /// </summary>
     /// <param name="json">Initial json token</param>
     /// <param name="path">JSON path</param>
-    /// <param name="tokenType">Expected json type</param>
+    /// <param name="tokenTypes">Expected json types</param>
     /// <returns>Resolved token or null</returns>
-    /// <exception cref="JsonHelperException">Unexpected <paramref name="tokenType"/></exception>
-    public static JToken? Select(this JToken json, string path, JTokenType tokenType) {
-        return JsonHelper.Select(json, path, tokenType);
+    /// <exception cref="JsonHelperException">Type mismatch</exception>
+    public static JToken? Select(this JToken json, string path, params JTokenType[] tokenTypes) {
+        return JsonHelper.Select(json, path, tokenTypes);
     }
     /// <summary>
-    ///     Read json token by expected <paramref name="tokenType"/> or throw <see cref="JsonHelperException"/>
+    ///     Read json token by expected <paramref name="tokenTypes"/> or throw <see cref="JsonHelperException"/>
     /// </summary>
     /// <param name="json">Initial json token</param>
     /// <param name="path">JSON path</param>
-    /// <param name="tokenType">Expected json type</param>
+    /// <param name="tokenTypes">Expected json types</param>
     /// <returns>Resolved token</returns>
-    /// <exception cref="JsonHelperException">Unexpected <paramref name="tokenType"/></exception>
-    public static JToken SelectOrThrow(this JToken json, string path, JTokenType tokenType) {
-        var token = Select(json, path, tokenType);
+    /// <exception cref="JsonHelperException">Unexpected token type</exception>
+    public static JToken SelectOrThrow(this JToken json, string path, params JTokenType[] tokenTypes) {
+        var token = Select(json, path, tokenTypes);
         if (token == null) {
             throw new JsonHelperException("Failed to select JToken: token is null");
         }
@@ -184,6 +184,30 @@ public static class JTokenExtensions {
             throw new JsonHelperException("Failed to select JToken: token is null");
         }
         return token.Value;
+    }
+    /// <summary>
+    ///     Select <see cref="DateTime"/> from string by format
+    /// </summary>
+    /// <param name="json">Initial json token</param>
+    /// <param name="path">JSON Path</param>
+    /// <param name="format">Date format</param>
+    /// <returns>Date and time</returns>
+    public static DateTime? SelectDate(this JToken json, string path, string format) {
+        return JsonHelper.SelectDate(json, path, format);
+    }
+    /// <summary>
+    ///     Select <see cref="DateTime"/> from string by format or throw <see cref="JsonHelperException"/>
+    /// </summary>
+    /// <param name="json">Initial json token</param>
+    /// <param name="path">JSON Path</param>
+    /// <param name="format">Date format</param>
+    /// <returns>Date and time</returns>
+    public static DateTime SelectDateOrThrow(this JToken json, string path, string format) {
+        var result = SelectDate(json, path, format);
+        if (result == null) {
+            throw new JsonHelperException($"Failed to select a datetime at {path} by format = '{format}'");
+        }
+        return result.Value;
     }
     /// <summary>
     ///     Select <see cref="Guid"/>

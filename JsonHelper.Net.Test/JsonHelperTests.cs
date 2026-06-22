@@ -163,14 +163,14 @@ public class JsonHelperTests {
         await Console.Out.WriteLineAsync(json);
         await Console.Out.WriteLineAsync(path);
         await Console.Out.WriteLineAsync(expected?.ToString());
+        var jtoken = JToken.Parse(json);
         if (expected != null) {
-            var jtoken = JToken.Parse(json);
             var date = JsonHelper.SelectDateOrThrow(jtoken, path, format);
             var dateIso = date.ToString("o");
             await Console.Out.WriteLineAsync(dateIso);
             Assert.That(dateIso, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectGuidOrThrow(json, path));
+            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectDateOrThrow(jtoken, path, format));
         }
     }
     /// <summary>

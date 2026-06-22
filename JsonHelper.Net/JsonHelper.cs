@@ -265,8 +265,12 @@ public static class JsonHelper {
         if (dateTime == null) {
             return null;
         }
-        var result = DateTime.ParseExact(dateTime, format, CultureInfo.InvariantCulture);
-        return result;
+        try {
+            var result = DateTime.ParseExact(dateTime, format, CultureInfo.InvariantCulture);
+            return result;
+        } catch (FormatException exception) {
+            throw new JsonHelperException($"Failed to resolve a datetime at {path} by format = '{format}'", exception);
+        }
     }
     /// <summary>
     ///     Select <see cref="DateTime"/>  or throw <see cref="JsonHelperException"/>
