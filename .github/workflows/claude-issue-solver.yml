@@ -1,0 +1,35 @@
+name: Auto PR's
+
+on:
+  issues:
+    types: [labeled]  # когда ставишь лейбл "agent-ready"
+
+jobs:
+  solve-issue:
+    if: |
+      (github.event_name == 'issues' && contains(github.event.label.name, 'agent-ready') && github.event.issue.user.login == github.repository_owner) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude') && github.event.comment.user.login == github.repository_owner)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      
+      - uses: anthropics/claude-code-action@v1
+        env:
+          ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+          ANTHROPIC_MODEL: deepseek-chat
+          ANTHROPIC_SMALL_FAST_MODEL: deepseek-chat
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          track_progress: true
+          prompt: |
+            ${{ github.event_name == 'issues' && format('Resolve GitHub Issue #{0}.\nTitle: {1}\nDescription: {2}\nImplement the required changes, create a new branch, commit your work, and open a Pull Request.\nBefore submitting, make sure the project builds successfully and all unit tests pass.', github.event.issue.number, github.event.issue.title, github.event.issue.body) || '' }}
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
