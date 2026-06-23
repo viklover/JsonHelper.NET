@@ -11,37 +11,13 @@ jobs:
     environment: release
     permissions:
       id-token: write
+      contents: read
+      packages: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: viklover/nuget-publish@v1
         with:
-          fetch-depth: 0
-
-      - name: Extract version from tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "7.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore JsonHelper.Net/JsonHelper.Net.csproj
-
-      - name: Build
-        run: dotnet build JsonHelper.Net/JsonHelper.Net.csproj -c Release --no-restore
-
-      - name: Pack
-        run: dotnet pack JsonHelper.Net/JsonHelper.Net.csproj -c Release --no-build -o packages /p:Version=${{ env.VERSION }}
-
-      - name: NuGet login (OIDC → temp API key)
-        uses: NuGet/login@v1
-        id: login
-        with:
-          user: ${{ secrets.NUGET_USER }}
-
-      - name: NuGet push
-        run: dotnet nuget push packages/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-
-      - name: Github Packages push
-        run: dotnet nuget push packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://nuget.pkg.github.com/viklover/index.json --skip-duplicate
+          DOTNET_VERSION: "7.0.x"
+          PROJECT_FILE_PATH: JsonHelper.Net/JsonHelper.Net.csproj
+          NUGET_USER: viklover
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
