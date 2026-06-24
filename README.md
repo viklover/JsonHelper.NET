@@ -34,14 +34,14 @@ var json = JToken.Parse("""
 
 // --- Nullable style (returns null on missing/null/wrong type) ---
 string? maybe  = json.SelectString("$.name");          // "Alice"
-int?    age    = JsonHelper.SelectInt(json, "$.age");  // 30
+int?    age    = json.SelectInt("$.age");  // 30
 bool?   admin  = json.SelectBoolean("$.admin");         // null (missing path)
 
 // --- Throwing style (throws JsonHelperException on failure) ---
 string   name  = json.SelectStringOrThrow("$.name");    // "Alice"
 float    score = json.SelectFloatOrThrow("$.score");     // 98.5
 Guid     id    = json.SelectGuidOrThrow("$.id");         // Guid
-DateTime dt    = JsonHelper.SelectDateOrThrow(json, "$.joined"); // DateTime
+DateTime dt    = json.SelectDateOrThrow("$.joined"); // DateTime
 
 // --- Without JsonHelper.Net (verbose boilerplate) ---
 var nameToken = json.SelectToken("$.name");
