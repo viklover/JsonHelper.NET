@@ -20,7 +20,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(result);
             Assert.That(result, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectStringOrThrow(json, path));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectStringOrThrow(json, path)));
         }
     }
     /// <summary>
@@ -38,7 +38,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(result.ToString());
             Assert.That(result, Is.EqualTo(expected.Value));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectBooleanOrThrow(json, path));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectBooleanOrThrow(json, path)));
         }
     }
     /// <summary>
@@ -56,7 +56,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(result.ToString());
             Assert.That(result, Is.EqualTo(expected.Value));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectIntOrThrow(json, path));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectIntOrThrow(json, path)));
         }
     }
     /// <summary>
@@ -74,7 +74,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(result.ToString());
             Assert.That(result, Is.EqualTo(expected.Value));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectFloatOrThrow(json, path));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectFloatOrThrow(json, path)));
         }
     }
     /// <summary>
@@ -131,7 +131,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(dateISO);
             Assert.That(dateISO, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectDateOrThrow(json, path));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectDateOrThrow(json, path)));
         }
     }
     /// <summary>
@@ -151,7 +151,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(guidString);
             Assert.That(guidString, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectGuidOrThrow(json, path));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectGuidOrThrow(json, path)));
         }
     }
     /// <summary>
@@ -170,7 +170,7 @@ public class JsonHelperTests {
             await Console.Out.WriteLineAsync(dateIso);
             Assert.That(dateIso, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectDateOrThrow(jtoken, path, format));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectDateOrThrow(jtoken, path, format)));
         }
     }
     /// <summary>
@@ -186,7 +186,7 @@ public class JsonHelperTests {
             var jtoken = JToken.Parse(json);
             JsonHelper.SelectOrThrow(jtoken, path, JTokenType.Object);
         } else {
-            Assert.Throws<JsonHelperException>(() => JsonHelper.SelectOrThrow(json, path, JTokenType.Object));
+            Assert.Throws<JsonHelperException>((Action)(() => JsonHelper.SelectOrThrow(json, path, JTokenType.Object)));
         }
     }
 }

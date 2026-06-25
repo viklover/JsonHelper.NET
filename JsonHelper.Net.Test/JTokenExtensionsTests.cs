@@ -18,7 +18,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(result);
             Assert.That(result, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectStringOrThrow(path));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectStringOrThrow(path)));
         }
     }
     /// <summary>
@@ -36,7 +36,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(result.ToString());
             Assert.That(result, Is.EqualTo(expected.Value));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectBooleanOrThrow(path));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectBooleanOrThrow(path)));
         }
     }
     /// <summary>
@@ -54,7 +54,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(result.ToString());
             Assert.That(result, Is.EqualTo(expected.Value));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectIntOrThrow(path));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectIntOrThrow(path)));
         }
     }
     /// <summary>
@@ -72,7 +72,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(result.ToString());
             Assert.That(result, Is.EqualTo(expected.Value));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectFloatOrThrow(path));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectFloatOrThrow(path)));
         }
     }
     /// <summary>
@@ -129,7 +129,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(dateISO);
             Assert.That(dateISO, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectDateOrThrow(path));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectDateOrThrow(path)));
         }
     }
     /// <summary>
@@ -149,7 +149,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(guidString);
             Assert.That(guidString, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectGuidOrThrow(path));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectGuidOrThrow(path)));
         }
     }
     /// <summary>
@@ -169,7 +169,7 @@ public class JTokenExtensionsTests {
             await Console.Out.WriteLineAsync(dateISO);
             Assert.That(dateISO, Is.EqualTo(expected));
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectDateOrThrow(path, format));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectDateOrThrow(path, format)));
         }
     }
     /// <summary>
@@ -185,7 +185,7 @@ public class JTokenExtensionsTests {
         if (expectedNull == false) {
             jtoken.SelectOrThrow(path, JTokenType.Object);
         } else {
-            Assert.Throws<JsonHelperException>(() => jtoken.SelectOrThrow(path, JTokenType.Object));
+            Assert.Throws<JsonHelperException>((Action)(() => jtoken.SelectOrThrow(path, JTokenType.Object)));
         }
     }
 }
